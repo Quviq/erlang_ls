@@ -148,19 +148,7 @@ goto_definition(_Filename, _) ->
 is_imported_bif(_Uri, _F, any_arity) ->
     false;
 is_imported_bif(_Uri, F, A) ->
-    OldBif = erl_internal:old_bif(F, A),
-    Bif = erl_internal:bif(F, A),
-    case {OldBif, Bif} of
-        %% Cannot be shadowed, always imported
-        {true, true} ->
-            true;
-        %% It's not a BIF at all
-        {false, false} ->
-            false;
-        %% The hard case, just jump to the bif for now
-        {_, _} ->
-            true
-    end.
+    erl_internal:bif(F, A).
 
 -spec defs_to_res([{uri(), els_poi:poi()}]) -> {ok, [{uri(), els_poi:poi()}]} | {error, not_found}.
 defs_to_res([]) -> {error, not_found};
